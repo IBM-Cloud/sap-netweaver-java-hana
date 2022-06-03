@@ -13,7 +13,7 @@ variable "SUBNET" {
     description = "Subnet name"
 }
 
-variable "SECURITYGROUP" {
+variable "SECURITY_GROUP" {
     type = string
     description = "Security group name"
 }

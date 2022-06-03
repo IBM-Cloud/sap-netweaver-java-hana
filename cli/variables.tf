@@ -34,13 +34,19 @@ variable "SUBNET" {
 	}
 }
 
-variable "SECURITYGROUP" {
+variable "SECURITY_GROUP" {
 	type		= string
 	description = "Security group name"
 	validation {
-		condition     = length(regexall("^([a-z]|[a-z][-a-z0-9]*[a-z0-9]|[0-9][-a-z0-9]*([a-z]|[-a-z][-a-z0-9]*[a-z0-9]))$", var.SECURITYGROUP)) > 0
-		error_message = "The SECURITYGROUP name is not valid."
+		condition     = length(regexall("^([a-z]|[a-z][-a-z0-9]*[a-z0-9]|[0-9][-a-z0-9]*([a-z]|[-a-z][-a-z0-9]*[a-z0-9]))$", var.SECURITY_GROUP)) > 0
+		error_message = "The SECURITY_GROUP name is not valid."
 	}
+}
+
+variable "RESOURCE_GROUP" {
+  type        = string
+  description = "Resource Group"
+  default     = "Default"
 }
 
 variable "SSH_KEYS" {

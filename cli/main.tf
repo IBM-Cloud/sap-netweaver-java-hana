@@ -4,7 +4,7 @@ module "vpc" {
 
   ZONE			= var.ZONE
   VPC			= var.VPC
-  SECURITYGROUP = var.SECURITYGROUP
+  SECURITY_GROUP = var.SECURITY_GROUP
   SUBNET		= var.SUBNET
 }
 
@@ -13,8 +13,9 @@ module "db-vsi" {
   depends_on	= [ module.vpc ]
   ZONE			= var.ZONE
   VPC			= var.VPC
-  SECURITYGROUP = var.SECURITYGROUP
+  SECURITY_GROUP = var.SECURITY_GROUP
   SUBNET		= var.SUBNET
+  RESOURCE_GROUP = var.RESOURCE_GROUP
   HOSTNAME		= var.DB-HOSTNAME
   PROFILE		= var.DB-PROFILE
   IMAGE			= var.DB-IMAGE
@@ -29,8 +30,9 @@ module "app-vsi" {
   depends_on	= [ module.vpc ]
   ZONE			= var.ZONE
   VPC			= var.VPC
-  SECURITYGROUP = var.SECURITYGROUP
+  SECURITY_GROUP = var.SECURITY_GROUP
   SUBNET		= var.SUBNET
+  RESOURCE_GROUP = var.RESOURCE_GROUP
   HOSTNAME		= var.APP-HOSTNAME
   PROFILE		= var.APP-PROFILE
   IMAGE			= var.APP-IMAGE

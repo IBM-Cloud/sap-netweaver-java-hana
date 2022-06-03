@@ -10,7 +10,7 @@ resource "ibm_is_subnet" "subnet" {
 }
 
 resource "ibm_is_security_group" "securitygroup" {
-  name		= var.SECURITYGROUP
+  name		= var.SECURITY_GROUP
   vpc		= ibm_is_vpc.vpc.id
 }
 

@@ -29,26 +29,27 @@ Your IBM Cloud API Key will be asked interactively during terraform plan step.
 
 ## Input parameter file
 The solution is configured by editing your variables in the file `input.auto.tfvars`
-Edit your VPC, Subnet, Security group, Hostname, Profile, Image, SSH Keys like so:
+Edit your VPC, Subnet, Security group, Resource group, Hostname, Profile, Image, SSH Keys like so:
 
 ```shell
 # General VPC variables:
-REGION                  = "eu-de"
-ZONE                    = "eu-de-2"
-VPC                             = "ic4sap"
-SECURITYGROUP   = "ic4sap-securitygroup"
-SUBNET                  = "ic4sap-subnet"
-SSH_KEYS                = [ "r010-57bfc315-f9e5-46bf-bf61-d87a24a9ce7a" , "r010-3fcd9fe7-d4a7-41ce-8bb3-d96e936b2c7e" ]
+REGION           = "eu-de"
+ZONE             = "eu-de-2"
+VPC              = "ic4sap"
+SECURITY_GROUP   = "ic4sap-securitygroup"
+RESOURCE_GROUP   = "wes-automation"           # EXISTING Resource Group
+SUBNET           = "ic4sap-subnet"
+SSH_KEYS         = [ "r010-57bfc315-f9e5-46bf-bf61-d87a24a9ce7a" , "r010-3fcd9fe7-d4a7-41ce-8bb3-d96e936b2c7e" ]
 
 # SAP Database VSI variables:
 DB-HOSTNAME             = "sapjavdb"
 DB-PROFILE              = "mx2-16x128"
-DB-IMAGE                = "ibm-redhat-7-6-amd64-sap-hana-1"
+DB-IMAGE                = "ibm-redhat-7-6-amd64-sap-hana-3"
 
 # SAP APPs VSI variables:
 APP-HOSTNAME    = "sapjavci"
-APP-PROFILE             = "bx2-4x16"
-APP-IMAGE               = "ibm-redhat-7-6-amd64-sap-applications-3"
+APP-PROFILE     = "bx2-4x16"
+APP-IMAGE       = "ibm-redhat-7-6-amd64-sap-applications-3"
 ```
 
 Parameter | Description
@@ -56,7 +57,8 @@ Parameter | Description
 REGION | The cloud region where to deploy the solution. The regions and zones for VPC are listed [here](https://cloud.ibm.com/docs/containers?topic=containers-regions-and-zones#zones-vpc)
 ZONE | The cloud zone where to deploy the solution
 VPC | The name of the VPC. The list of VPCs is available [here](https://cloud.ibm.com/vpc-ext/network/vpcs)
-SECURITYGROUP | The name of the Security Group. The list of Security Groups is available [here](https://cloud.ibm.com/vpc-ext/network/securityGroups)
+SECURITY_GROUP | The name of the Security Group. The list of Security Groups is available [here](https://cloud.ibm.com/vpc-ext/network/securityGroups)
+RESOURCE_GROUP | EXISTING Resource Group name. The list of Resource Groups is available [here](https://cloud.ibm.com/account/resource-groups).
 SUBNET | The name of the Subnet. The list of Subnets is available [here](https://cloud.ibm.com/vpc-ext/network/subnets)
 SSH_KEYS | List of SSH Keys IDs that are allowed to SSH as root to the VSI. Can contain one or more IDs.<br> The list of SSH Keys is available [here](https://cloud.ibm.com/vpc-ext/compute/sshKeys)
 [DB/APP]-HOSTNAME | The Hostname for the VSI. The hostname must have up to 13 characters as required by SAP.<br> For more information on rules regarding hostnames for SAP systems, check [SAP Note 611361: Hostnames of SAP ABAP Platform servers](https://launchpad.support.sap.com/#/notes/%20611361)
@@ -163,13 +165,13 @@ terraform init
 For planning phase:
 
 ```shell
-terraform plan
+terraform plan --out plan1
 ```
 
 For apply phase:
 
 ```shell
-terraform apply
+terraform apply "plan1"
 ```
 
 For destroy:

@@ -3,11 +3,15 @@ data "ibm_is_vpc" "vpc" {
 }
 
 data "ibm_is_security_group" "securitygroup" {
-  name		= var.SECURITYGROUP
+  name		= var.SECURITY_GROUP
 }
 
 data "ibm_is_subnet" "subnet" {
   name		= var.SUBNET
+}
+
+data "ibm_resource_group" "group" {
+  name		= var.RESOURCE_GROUP
 }
 
 data "ibm_is_image" "image" {
@@ -17,6 +21,7 @@ data "ibm_is_image" "image" {
 resource "ibm_is_instance" "vsi" {
   vpc		= data.ibm_is_vpc.vpc.id
   zone		= var.ZONE
+  resource_group = data.ibm_resource_group.group.id
   keys		= var.SSH_KEYS
   name		= var.HOSTNAME
   profile	= var.PROFILE
@@ -27,9 +32,4 @@ resource "ibm_is_instance" "vsi" {
     security_groups = [data.ibm_is_security_group.securitygroup.id]
   }
   volumes = ibm_is_volume.vol[*].id
-}
-
-resource "ibm_is_floating_ip" "fip" {
-  name		= "${var.HOSTNAME}-fip"
-  target	= ibm_is_instance.vsi.primary_network_interface[0].id
 }
