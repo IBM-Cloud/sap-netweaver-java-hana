@@ -59,5 +59,5 @@ module "sec-exec" {
   source		= "./modules/sec-exec"
   depends_on	= [ module.app-ansible-exec ]
   IP			= module.app-vsi.PRIVATE-IP
-  sap_master_password = var.sap_master_password
+  sap_main_password = var.sap_main_password
 }

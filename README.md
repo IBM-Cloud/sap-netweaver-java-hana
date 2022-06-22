@@ -119,12 +119,12 @@ kit_hdbclient_file | Path to HANA DB client archive (SAR) | As downloaded from S
 kit_sapjvm_file | Path to SAP JVM archive (SAR) | As downloaded from SAP Support Portal
 kit_java_export | Path to JAVA Installation Export dir | The archives downloaded from SAP Support Portal should be present in this path
 
-**SAP Master Password**
+**SAP Main Password**
 The password for the SAP system will be asked interactively during terraform plan step and will not be available after the deployment.
 
 Parameter | Description | Requirements
 ----------|-------------|-------------
-sap_master_password | Common password for all users that are created during the installation | <ul><li>It must be 8 to 14 characters long</li><li>It must contain at least one digit (0-9)</li><li>It must not contain \ (backslash) and " (double quote)</li></ul>
+sap_main_password | Common password for all users that are created during the installation | <ul><li>It must be 8 to 14 characters long</li><li>It must contain at least one digit (0-9)</li><li>It must not contain \ (backslash) and " (double quote)</li></ul>
 
 ## VPC Configuration
 

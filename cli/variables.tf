@@ -176,13 +176,13 @@ variable "sap_ci_instance_number" {
 	}
 }
 
-variable "sap_master_password" {
+variable "sap_main_password" {
 	type		= string
 	sensitive = true
-	description = "sap_master_password"
+	description = "sap_main_password"
 	validation {
-		condition     = length(regexall("^(.{0,9}|.{15,}|[^0-9]*)$", var.sap_master_password)) == 0 && length(regexall("^[^0-9_][0-9a-zA-Z@#$_]+$", var.sap_master_password)) > 0
-		error_message = "The sap_master_password is not valid."
+		condition     = length(regexall("^(.{0,9}|.{15,}|[^0-9]*)$", var.sap_main_password)) == 0 && length(regexall("^[^0-9_][0-9a-zA-Z@#$_]+$", var.sap_main_password)) > 0
+		error_message = "The sap_main_password is not valid."
 	}
 }
 
