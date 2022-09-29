@@ -22,7 +22,7 @@ RESOURCE_GROUP = "wes-automation"
 # EXISTING Resource group, previously created by the user. The list of available Resource Groups: https://cloud.ibm.com/account/resource-groups
 # Example: RESOURCE_GROUP = "wes-automation"
 
-SUBNET = "ic4sap-subnet"
+SUBNET = "ic4sap-ed2-subnet"
 # EXISTING Subnet in the same region and zone as the VSI, previously created by the user. The list of available Subnets: https://cloud.ibm.com/vpc-ext/network/subnets
 # Example: SUBNET = "ic4sap-subnet"
 
@@ -34,7 +34,7 @@ SSH_KEYS = ["r010-57bfc315-f9e5-46bf-bf61-d87a24a9ce7a", "r010-e372fc6f-4aef-4bd
 # DB VSI variables:
 ##########################################################
 
-DB-HOSTNAME = "sapbw4dbmar3"
+DB-HOSTNAME = "sapjhdbhana"
 # The Hostname for the DB VSI. The hostname should be up to 13 characters, as required by SAP
 # Example: HOSTNAME = "ic4sap"
 
@@ -50,7 +50,7 @@ DB-IMAGE = "ibm-redhat-8-4-amd64-sap-hana-2"
 # SAP APP VSI variables:
 ##########################################################
 
-APP-HOSTNAME = "sapbw4appmar3"
+APP-HOSTNAME = "sapjhdbapp"
 # The Hostname for the SAP APP VSI. The hostname should be up to 13 characters, as required by SAP
 # Example: HOSTNAME = "ic4sap"
 

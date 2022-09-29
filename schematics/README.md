@@ -7,7 +7,7 @@ The solution is based on Terraform scripts and Ansible playbooks executed by Sch
 
 **It contains:**
   -  Terraform scripts for the deployment of two VSIs, in an EXISTING VPC, with Subnet and Security Group. The VSIs are intended to be used: one for the data base instance and the other for the application instance.
-  -  - Bash scripts used for the checking of the prerequisites required by SAP VSIs deployment and for the integration into a single step in IBM Schematics GUI of the VSI provisioning and the **Three Tier SAP JAVA on HANA DB** installation.
+  -  Bash scripts used for the checking of the prerequisites required by SAP VSIs deployment and for the integration into a single step in IBM Schematics GUI of the VSI provisioning and the **Three Tier SAP JAVA on HANA DB** installation.
   -  Ansible scripts to configure Three Tier SAP JAVA primary application server and a HANA 2.0 node. Please note that Ansible is started by Terraform and must be available on the same host.
 
 ## Installation media
