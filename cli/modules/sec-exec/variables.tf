@@ -3,8 +3,8 @@ variable "IP" {
     description = "IP used to execute ansible"
 }
 
-variable "sap_main_password" {
+variable "SAP_MAIN_PASSWORD" {
 	type		= string
 	sensitive = true
-	description = "sap_main_password"
+	description = "SAP_MAIN_PASSWORD"
 }

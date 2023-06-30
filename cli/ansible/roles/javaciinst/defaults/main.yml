@@ -19,7 +19,7 @@ javacis_kit:
     javacis_dest: "{{ javaci_kit }}/igsexe.sar"
   - javacis_src: "{{ kit_igshelper_file }}"
     javacis_dest: "{{ javaci_kit }}/igshelper.sar"
-  - javacis_src: "{{ kit_saphotagent_file }}"
+  - javacis_src: "{{ kit_saphostagent_file }}"
     javacis_dest: "{{ javaci_kit }}/saphotagent.sar"
   - javacis_src: "{{ kit_hdbclient_file }}"
     javacis_dest: "{{ javaci_kit }}/hdbclient.sar"
