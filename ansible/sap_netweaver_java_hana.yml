@@ -1,0 +1,6 @@
+---
+- name: saphana.yml
+  ansible.builtin.import_playbook: saphana.yml
+- name: javaci.yml
+  ansible.builtin.import_playbook: javaci.yml
+...
