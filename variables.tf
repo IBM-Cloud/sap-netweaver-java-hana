@@ -187,7 +187,7 @@ variable "KIT_SAPHANA_FILE" {
 variable "SAP_SID" {
 	type		= string
 	description = "The SAP system ID. Identifies the entire SAP system. Consists of three alphanumeric characters and the first character must be a letter. Does not include any of the reserved IDs listed in SAP Note 1979280."
-	default		= "S4A"
+	default		= "JV1"
 	validation {
 		condition     = length(regexall("^[a-zA-Z][a-zA-Z0-9][a-zA-Z0-9]$", var.SAP_SID)) > 0
 		error_message = "The SAP_SID is not valid."
