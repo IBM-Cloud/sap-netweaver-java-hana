@@ -3,7 +3,6 @@
 ## Description
 This automation solution is designed for the deployment of **Three Tier SAP JAVA on HANA DB** using IBM Cloud Schematics or CLI. The SAP solution will be deployed on top of one of the following Operating Systems: **Red Hat Enterprise Linux 8.6 for SAP**, **Red Hat Enterprise Linux 8.4 for SAP**, **SUSE Linux Enterprise Server 15 SP 4 for SAP**, **SUSE Linux Enterprise Server 15 SP 3 for SAP**, in an existing IBM Cloud Gen2 VPC, using an existing bastion host with secure remote SSH access.
 
-In order to track the events specific to the resources deployed by this solution, the [IBM Cloud Activity Tracker](https://cloud.ibm.com/docs/activity-tracker?topic=activity-tracker-getting-started#gs_ov) to be used should be specified. IBM Cloud Activity Tracker service collects and stores audit records for API calls made to resources that run in the IBM Cloud. It can be used to monitor the activity of your IBM Cloud account, investigate abnormal activity and critical actions, and comply with regulatory audit requirements. In addition, you can be alerted on actions as they happen.
 
 ## Contents:
 
@@ -109,11 +108,6 @@ APP_HOSTNAME | The Hostname for the DB VSI. The hostname must have up to 13 char
 APP_PROFILE |  The profile used for the APP VSI. A list of profiles is available [here](https://cloud.ibm.com/docs/vpc?topic=vpc-profiles) <br>  For more information about supported DB/OS and IBM Gen 2 Virtual Server Instances (VSI), check [SAP Note 2927211: SAP Applications on IBM Virtual Private Cloud](https://launchpad.support.sap.com/#/notes/2927211) <br /> Default value: "bx2-4x16"
 APP_IMAGE | The OS image used for the APP VSI. A list of images is available [here](https://cloud.ibm.com/docs/vpc?topic=vpc-about-images).<br /> Supported images: ibm-redhat-8-6-amd64-sap-applications-4, ibm-redhat-8-4-amd64-sap-applications-7, ibm-sles-15-4-amd64-sap-applications-6, ibm-sles-15-3-amd64-sap-applications-9. Default value: ibm-redhat-8-6-amd64-sap-applications-4
 
-**Activity Tracker input parameters:**
-
-Parameter | Description
-----------|------------
-ATR_NAME | The name of the EXISTENT Activity Tracker instance, in the same region chosen for SAP system deployment.
 
 **SAP input parameters:**
 
@@ -196,7 +190,7 @@ SAP_MAIN_PASSWORD | Common password for all users that are created during the in
 7.  Review the log file to ensure that no errors occurred during the
     provisioning, modification, or deletion process.
 
-The output of the Schematics Apply Plan will list the private IP addresses of the VSI hosts, the hostnames, the storage layount for HANA VSI and the activity tracker name.  
+The output of the Schematics Apply Plan will list the private IP addresses of the VSI hosts, the hostnames, and the storage layount for HANA VSI.  
 
 ## 2.2 Executing the deployment of **Three Tier SAP Java HANA Stack** in CLI
 
@@ -293,13 +287,6 @@ APP_IMAGE = "ibm-redhat-8-6-amd64-sap-applications-4"
 # The list of available VPC Operating Systems supported by SAP: SAP note '2927211 - SAP Applications on IBM Virtual Private Cloud (VPC) Infrastructure environment' https://launchpad.support.sap.com/#/notes/2927211; The list of all available OS images: https://cloud.ibm.com/docs/vpc?topic=vpc-about-images
 # Example: APP_IMAGE = "ibm-redhat-8-46-amd64-sap-applications-4" 
 
-##########################################################
-# Activity Tracker variables:
-##########################################################
-
-ATR_NAME = "Activity-Tracker-SAP-eu-de"
-# The name of the EXISTENT Activity Tracker instance, in the same region chosen for SAP system deployment.
-# Example: ATR_NAME="Activity-Tracker-SAP-eu-de"
 
 ```
 

@@ -284,35 +284,3 @@ variable "KIT_JAVA_EXPORT" {
 	default		= "/storage/NW75HDB/export"
 }
 
-##############################################################
-# The variables used in Activity Tracker service.
-##############################################################
-
-variable "ATR_NAME" {
-  type        = string
-  description = "The name of the EXISTING Activity Tracker instance, in the same region as HANA VSI. The list of available Activity Tracker is available here: https://cloud.ibm.com/observe/activitytracker"
-  default = ""
-}
-
-# ATR variables and conditions
-
-locals {
-	ATR_ENABLE = true
-}
-
-resource "null_resource" "check_atr_name" {
-  count             = local.ATR_ENABLE == true ? 1 : 0
-  lifecycle {
-    precondition {
-      condition     = var.ATR_NAME != "" && var.ATR_NAME != null
-      error_message = "The name of an EXISTENT Activity Tracker in the same region must be specified."
-    }
-  }
-}
-
-data "ibm_resource_instance" "activity_tracker" {
-  count             = local.ATR_ENABLE == true ? 1 : 0
-  name              = var.ATR_NAME
-  location          = var.REGION
-  service           = "logdnaat"
-}

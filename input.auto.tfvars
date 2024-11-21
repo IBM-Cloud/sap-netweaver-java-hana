@@ -132,11 +132,3 @@ KIT_SAPHOSTAGENT_FILE = "/storage/NW75HDB/SAPHOSTAGENT51_51-20009394.SAR"
 KIT_HDBCLIENT_FILE = "/storage/NW75HDB/IMDB_CLIENT20_009_28-80002082.SAR"
 KIT_SAPJVM_FILE = "/storage/NW75HDB/SAPJVM8_73-80000202.SAR"
 KIT_JAVA_EXPORT = "/storage/NW75HDB/export"
-
-##########################################################
-# Activity Tracker variables:
-##########################################################
-
-ATR_NAME = ""
-# The name of the EXISTING Activity Tracker instance, in the same region chosen for SAP system deployment.
-# Example: ATR_NAME="Activity-Tracker-SAP-eu-de"
