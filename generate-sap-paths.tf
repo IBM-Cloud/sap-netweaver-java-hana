@@ -10,7 +10,7 @@ ${var.KIT_IGSHELPER_FILE}
 ${var.KIT_SAPHOSTAGENT_FILE}
 ${var.KIT_HDBCLIENT_FILE}
 ${var.KIT_SAPJVM_FILE}
-${var.KIT_JAVA_EXPORT}/*.*
+${var.KIT_JAVA_EXPORT_FILE}
 ${var.KIT_SAPHANA_FILE}
     DOC
   filename = "modules/precheck-ssh-exec/sap-paths-${var.DB_HOSTNAME}"

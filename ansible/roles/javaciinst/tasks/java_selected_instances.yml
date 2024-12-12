@@ -1,0 +1,7 @@
+---
+- name: Loop over all JAVA product instances and check for the selected JAVA instances
+  set_fact:
+    java_instances_temp: "{{ java_instances_temp | default('') + ',' + item.value }}"
+  loop: "{{ java_instance_mapping | dict2items }}"
+  when: java_product_instances.split(',') | length > 0 and item.key == outer_item
+...

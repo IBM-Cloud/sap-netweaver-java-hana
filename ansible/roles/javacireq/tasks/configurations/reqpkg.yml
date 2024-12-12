@@ -1,5 +1,5 @@
 ---
-- name: Import required packages
+- name: Install required packages
   package:
     state: present
     name: "{{ javaci_required_packages }}"

@@ -1,0 +1,97 @@
+---
+- name: Create directories for SAP NetWeaver Application Server Java kit on target
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0777
+  loop:
+    - "{{ javaci_kit }}"
+    - "{{ javaci_kit }}/swpm"
+    - "{{ javaci_kit }}/hdbclient"
+    - "{{ javaci_kit }}/export"
+
+- name: Gather the package facts for Ansible controller
+  package_facts:
+    manager: auto
+  delegate_to: localhost
+
+- name: Check if rsync package is available on Ansible controller
+  set_fact:
+    rsync_found_controller: true
+  when: "'rsync' in ansible_facts.packages"
+  delegate_to: localhost
+
+- name: Gather the package facts for Red Hat target
+  package_facts:
+    manager: auto
+  when: ansible_facts['os_family'] == "RedHat"
+
+- name: Gather the packages for Suse target
+  shell: zypper search -i --match-exact rsync
+  args:
+    warn: false
+  register: rsync_search_result
+  when: ansible_facts['os_family'] == "Suse"
+
+- name: Check if rsync package is available on target
+  set_fact:
+    rsync_found_target: true
+  when: ansible_facts['os_family'] == "RedHat" and "'rsync' in ansible_facts.packages" or ansible_facts['os_family'] == "Suse" and rsync_search_result.rc == 0
+
+- name: Copy SAP NetWeaver Application Server Java kit to target using rsync
+  synchronize:
+    src: "{{ item.javacis_src }}"
+    dest: "{{ item.javacis_dest }}"
+    checksum: yes
+  loop: "{{ javacis_kit }}"
+  when: rsync_found_controller is defined and rsync_found_target is defined
+
+- name: Copy SAP NetWeaver Application Server Java kit to target when rsync is not available
+  copy:
+    src: "{{ item.javacis_src }}"
+    dest: "{{ item.javacis_dest }}"
+    owner: root
+    group: root
+    mode: 0777
+  loop: "{{ javacis_kit }}"
+  when: rsync_found_controller is not defined or rsync_found_target is not defined
+
+- name: Recursively change the ownership and permissions on the SAP kit directory
+  file:
+    path: "{{ javaci_kit }}"
+    state: directory
+    mode: 0777
+    recurse: yes
+    owner: root
+    group: root
+
+- name: Check if HDBClient archive content was already extracted
+  stat:
+    path: "{{ javaci_kit }}/hdbclient/SAP_HANA_CLIENT/hdbinst"
+  register: hdb_file_status
+
+- name: Extract HDBClient archive
+  command: "{{ javaci_kit }}/sapcar -xf {{ javaci_kit }}/hdbclient.sar -R {{ javaci_kit }}/hdbclient"
+  when: not hdb_file_status.stat.exists
+
+- name: Check if the content of export ZIP file was already extracted
+  stat:
+    path: "{{ javaci_kit }}/export/DATA_UNITS/JAVA_EXPORT/LABEL.ASC"
+  register: export_file_status
+
+- name: Extract "{{ javaci_kit }}/export/{{ kit_java_export_file.split('/')[-1] }}" to target
+  unarchive:
+    src: "{{ javaci_kit }}/export/{{ kit_java_export_file.split('/')[-1] }}"
+    dest: "{{ javaci_kit }}/export/"
+    remote_src: yes
+  when: not export_file_status.stat.exists
+
+- name: Check if SWPM archive content was already extracted
+  stat:
+    path: "{{ javaci_kit }}/swpm/sapinst"
+  register: swpm_file_status
+
+- name: Extract SWPM archive
+  command: "{{ javaci_kit }}/sapcar -xf {{ javaci_kit }}/swpm.sar -R {{ javaci_kit }}/swpm"
+  when: not swpm_file_status.stat.exists
+...

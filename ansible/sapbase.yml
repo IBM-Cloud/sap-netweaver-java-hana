@@ -1,0 +1,10 @@
+---
+- hosts: db_host,app_host
+  gather_facts: yes
+  any_errors_fatal: true
+  pre_tasks:
+    - name: Import playbook variables
+      include_vars: "saphana-vars.yml"
+  roles:
+    - sapbasereq
+...

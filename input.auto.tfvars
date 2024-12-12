@@ -29,7 +29,7 @@ SUBNET = ""
 
 SSH_KEYS = [""]
 # List of SSH Keys UUIDs that are allowed to SSH as root to the VSIs. The SSH Keys should be created for the same region as the VSI. The list of available SSH Keys UUIDs: https://cloud.ibm.com/vpc-ext/compute/sshKeys
-# Example: SSH_KEYS = ["r010-8f72b994-c17f-4500-af8f-d05680374t3c", "r011-8f72v884-c17f-4500-af8f-d05900374t3c"]
+# Example: SSH_KEYS = ["r010-8..................3c", "r010-f.......................h"]
 
 ID_RSA_FILE_PATH = "ansible/id_rsa"
 # Input your existing id_rsa private key file path in OpenSSH format with 0600 permissions.
@@ -51,10 +51,10 @@ DB_PROFILE = "mx2-16x128"
 # For more information about supported DB/OS and IBM Gen 2 Virtual Server Instances (VSI), check [SAP Note 2927211: SAP Applications on IBM Virtual Private Cloud](https://launchpad.support.sap.com/#/notes/2927211) 
 # Default value: "mx2-16x128"
 
-DB_IMAGE = "ibm-redhat-8-6-amd64-sap-hana-4"
-# OS image for DB VSI. Supported OS images for DB VSIs: ibm-redhat-8-6-amd64-sap-hana-4, ibm-redhat-8-4-amd64-sap-hana-7, ibm-sles-15-4-amd64-sap-hana-5, ibm-sles-15-3-amd64-sap-hana-8.
+DB_IMAGE = "ibm-redhat-9-4-amd64-sap-hana-3"
+# OS image for DB VSI. 
 # The list of available VPC Operating Systems supported by SAP: SAP note '2927211 - SAP Applications on IBM Virtual Private Cloud (VPC) Infrastructure environment' https://launchpad.support.sap.com/#/notes/2927211; The list of all available OS images: https://cloud.ibm.com/docs/vpc?topic=vpc-about-images
-# Example: DB_IMAGE = "ibm-redhat-8-6-amd64-sap-hana-4" 
+# Example: DB_IMAGE = "ibm-redhat-8-6-amd64-sap-hana-6" 
 
 ##########################################################
 # SAP APP VSI variables:
@@ -67,10 +67,10 @@ APP_HOSTNAME = ""
 APP_PROFILE = "bx2-4x16"
 # The APP VSI profile. Supported profiles: bx2-4x16. The list of available profiles: https://cloud.ibm.com/docs/vpc?topic=vpc-profiles&interface=ui
 
-APP_IMAGE = "ibm-redhat-8-6-amd64-sap-applications-4"
-# OS image for SAP APP VSI. Supported OS images for APP VSIs: ibm-redhat-8-6-amd64-sap-applications-4, ibm-redhat-8-4-amd64-sap-applications-7, ibm-sles-15-4-amd64-sap-applications-6, ibm-sles-15-3-amd64-sap-applications-9.
+APP_IMAGE = "ibm-redhat-9-4-amd64-sap-applications-3"
+# OS image for SAP APP VSI. 
 # The list of available VPC Operating Systems supported by SAP: SAP note '2927211 - SAP Applications on IBM Virtual Private Cloud (VPC) Infrastructure environment' https://launchpad.support.sap.com/#/notes/2927211; The list of all available OS images: https://cloud.ibm.com/docs/vpc?topic=vpc-about-images
-# Example: APP_IMAGE = "ibm-redhat-8-46-amd64-sap-applications-4" 
+# Example: APP_IMAGE = "ibm-redhat-8-6-amd64-sap-applications-6" 
 
 ##########################################################
 # SAP HANA configuration
@@ -88,6 +88,10 @@ HANA_SYSNO = "00"
 # Must be unique on a host
 # Example: HANA_SYSNO = "01"
 
+HANA_TENANT = "JV1"
+# SAP HANA tenant name
+# Example:HANA_TENANT = "HDB_TEN1"
+
 HANA_SYSTEM_USAGE = "custom"
 # SAP HANA System usage. Default: custom. Suported values: production, test, development, custom
 # Example: HANA_SYSTEM_USAGE = "custom"
@@ -96,10 +100,9 @@ HANA_COMPONENTS = "server"
 # SAP HANA Components. Default: server. Supported values: all, client, es, ets, lcapps, server, smartda, streaming, rdsync, xs, studio, afl, sca, sop, eml, rme, rtl, trp
 # Example: HANA_COMPONENTS = "server"
 
-KIT_SAPHANA_FILE = "/storage/HANADB/51055299.ZIP"
-# SAP HANA Installation kit path (ZIP file), as downloaded from SAP Support Portal
-# Supported SAP HANA versions on Red Hat 8 and Suse 15: HANA 2.0 SP 5 Rev 57, kit file: 51055299.ZIP
-# Example for Red Hat 8 or Suse 15: KIT_SAPHANA_FILE = "/storage/HANADB/51055299.ZIP"
+KIT_SAPHANA_FILE = "/storage/HANADB/SP07/Rev77/IMDB_SERVER20_077_0-80002031.SAR"
+# SAP HANA Installation kit path (ZIP/SAR file), as downloaded from SAP Support Portal
+# Example: KIT_SAPHANA_FILE = "/storage/HANADB/SP07/Rev77/IMDB_SERVER20_077_0-80002031.SAR"
 
 ##########################################################
 # SAP system configuration
@@ -118,17 +121,26 @@ SAP_CI_INSTANCE_NUMBER = "00"
 # The SAP central instance number. Should follow the SAP rules for instance number naming.
 # Example: SAP_CI_INSTANCE_NUMBER = "06"
 
+JAVA_PRODUCT_INSTANCES = []
+# The list of JAVA product instances. The list can contain the following elements: AdobeDocumentServices, BIJAVA, BPM, 
+# CentralProcessScheduling, CompositionPlatform, DevelopmentInfrastructure, EPCore-ApplicationPortal, EnterprisePortal, 
+# EnterpriseServicesRepository, PDFExport
+# Example: JAVA_PRODUCT_INSTANCES = ["AdobeDocumentServices", "BIJAVA"]
+
+JAVA_NODES = "2"
+# The number of JAVA server nodes
+
 ##########################################################
 # SAP JAVA APP Installation kit path
 ##########################################################
 
-KIT_SAPCAR_FILE = "/storage/NW75HDB/SAPCAR_1010-70006178.EXE"
-KIT_SWPM_FILE = "/storage/NW75HDB/SWPM10SP31_7-20009701.SAR"
-KIT_SAPEXE_FILE = "/storage/NW75HDB/SAPEXE_801-80002573.SAR"
-KIT_SAPEXEDB_FILE = "/storage/NW75HDB/SAPEXEDB_801-80002572.SAR"
-KIT_IGSEXE_FILE = "/storage/NW75HDB/igsexe_13-80003187.sar"
-KIT_IGSHELPER_FILE = "/storage/NW75HDB/igshelper_17-10010245.sar"
-KIT_SAPHOSTAGENT_FILE = "/storage/NW75HDB/SAPHOSTAGENT51_51-20009394.SAR"
-KIT_HDBCLIENT_FILE = "/storage/NW75HDB/IMDB_CLIENT20_009_28-80002082.SAR"
-KIT_SAPJVM_FILE = "/storage/NW75HDB/SAPJVM8_73-80000202.SAR"
-KIT_JAVA_EXPORT = "/storage/NW75HDB/export"
+KIT_SAPCAR_FILE = "/storage/NW75HDB/SAPCAR_1300-70007716.EXE"
+KIT_SWPM_FILE = "/storage/NW75HDB/SWPM10SP42_0-20009701.SAR"
+KIT_SAPEXE_FILE = "/storage/NW75HDB/KERNEL/7.54UC/SAPEXE_400-80007612.SAR"
+KIT_SAPEXEDB_FILE = "/storage/NW75HDB/KERNEL/7.54UC/SAPEXEDB_400-80007611.SAR"
+KIT_IGSEXE_FILE = "/storage/NW75HDB/KERNEL/7.54UC/igsexe_5-80007786.sar"
+KIT_IGSHELPER_FILE = "/storage/NW75HDB/KERNEL/igshelper_17-10010245.sar"
+KIT_SAPHOSTAGENT_FILE = "/storage/NW75HDB/SAPHOSTAGENT65_65-80004822.SAR"
+KIT_HDBCLIENT_FILE = "/storage/NW75HDB/IMDB_CLIENT20_022_32-80002082.SAR"
+KIT_SAPJVM_FILE = "/storage/NW75HDB/SAPJVM81/SAPJVM8_102-80000202.SAR"
+KIT_JAVA_EXPORT_FILE = "/storage/NW75HDB/JAVAEXP/SP22/51055106.ZIP"

@@ -1,0 +1,42 @@
+---
+javaci_required_packages:
+  - autoconf.noarch
+  - automake.noarch
+  - cyrus-sasl.x86_64
+  - expat.x86_64
+  - firewalld
+  - fontconfig.x86_64
+  - glibc.i686
+  - glibc-devel.i686
+  - graphviz
+  - iptraf-ng
+  - keyutils-libs.x86_64
+  - krb5-libs.x86_64
+  - libcom_err.x86_64
+  - libgcc.i686
+  - libidn2.x86_64
+  - libselinux.x86_64
+  - libstdc++.i686
+  - libuuid.i686
+  - libXau.i686
+  - libxcb.i686
+  - libxcrypt-compat
+  - libX11.i686
+  - nspr.x86_64
+  - nss.x86_64
+  - nss-softokn.x86_64
+  - nss-softokn-freebl.x86_64
+  - nss-util.x86_64
+  - openldap.x86_64
+  - openssl.x86_64
+  - tuned-profiles-sap
+  - zlib.x86_64
+
+javaci_required_configurations:
+  - "reqpkg"
+  - "kernel_RedHat9"
+  - "firewalld"
+  - "uuidd"
+  - "tuned"
+  - "reboot"
+...

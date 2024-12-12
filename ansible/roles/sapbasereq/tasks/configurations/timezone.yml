@@ -1,0 +1,3 @@
+- name: Set the same timezone for both SAP servers
+  timezone:
+    name: US/Central

@@ -18,7 +18,7 @@ module "pre-init-cli" {
   KIT_SAPHOSTAGENT_FILE = var.KIT_SAPHOSTAGENT_FILE
   KIT_HDBCLIENT_FILE = var.KIT_HDBCLIENT_FILE
   KIT_SAPJVM_FILE = var.KIT_SAPJVM_FILE
-  KIT_JAVA_EXPORT = var.KIT_JAVA_EXPORT
+  KIT_JAVA_EXPORT_FILE = var.KIT_JAVA_EXPORT_FILE
 }
 
 module "precheck-ssh-exec" {
@@ -67,13 +67,11 @@ module "app-vsi" {
   PROFILE		= var.APP_PROFILE
   IMAGE			= var.APP_IMAGE
   SSH_KEYS		= var.SSH_KEYS
-  VOLUME_SIZES	= [ "40" , "128" ]
-  VOL_PROFILE	= "10iops-tier"
 }
 
 module "ansible-exec-schematics" {
   source  = "./modules/ansible-exec"
-  depends_on	= [ module.app-vsi, local_file.ansible_inventory, local_file.app_ansible_javaci-vars, local_file.db_ansible_saphana-vars, local_file.tf_ansible_hana_storage_generated_file ]
+  depends_on	= [ module.app-vsi, local_file.ansible_inventory, local_file.app_ansible_javaci-vars, local_file.db_ansible_saphana-vars, local_file.tf_ansible_vars_generated_file_db, local_file.tf_ansible_vars_generated_file_app ]
   count = (var.PRIVATE_SSH_KEY == "n.a" && var.BASTION_FLOATING_IP == "localhost" ? 0 : 1)
   IP  = data.ibm_is_instance.db-vsi.primary_network_interface[0].primary_ip[0].address
   PLAYBOOK = "sap_netweaver_java_hana.yml"
@@ -84,7 +82,7 @@ module "ansible-exec-schematics" {
 
 module "ansible-exec-cli" {
   source  = "./modules/ansible-exec/cli"
-  depends_on	= [ module.app-vsi, local_file.ansible_inventory, local_file.app_ansible_javaci-vars, local_file.db_ansible_saphana-vars, local_file.tf_ansible_hana_storage_generated_file ]
+  depends_on	= [ module.app-vsi, local_file.ansible_inventory, local_file.app_ansible_javaci-vars, local_file.db_ansible_saphana-vars, local_file.tf_ansible_vars_generated_file_db, local_file.tf_ansible_vars_generated_file_app ]
   count = (var.PRIVATE_SSH_KEY == "n.a" && var.BASTION_FLOATING_IP == "localhost" ? 1 : 0)
   IP  = data.ibm_is_instance.db-vsi.primary_network_interface[0].primary_ip[0].address
   ID_RSA_FILE_PATH = var.ID_RSA_FILE_PATH

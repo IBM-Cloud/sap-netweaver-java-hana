@@ -1,0 +1,14 @@
+---
+- name: Set recommended kernel parameters for SAP NW on RedHat 9
+  sysctl:
+    sysctl_file: /etc/sysctl.d/sap.conf
+    name: "{{ kernel_param.name }}"
+    value: "{{ kernel_param.value }}"
+    sysctl_set: yes
+    state: present
+    reload: yes
+  loop:
+    - { name: vm.max_map_count, value: 2147483647 }
+  loop_control:
+    loop_var: kernel_param
+...

@@ -1,0 +1,12 @@
+---
+- name: Check if HANA DB was already installed
+  stat:
+    path: "/hana/shared/{{ hana_sid | upper }}/exe/linuxx86_64/hdb"
+  register: hdb_install_status
+
+- name: Reboot target host
+  reboot:
+    connect_timeout: 30
+    post_reboot_delay: 60
+  when: not hdb_install_status.stat.exists
+...

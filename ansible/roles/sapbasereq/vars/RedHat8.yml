@@ -1,0 +1,26 @@
+---
+sapbase_required_packages:
+  - uuidd
+  - libnsl
+  - tcsh
+  - psmisc
+  - nfs-utils
+  - bind-utils
+  - chrony
+  - lvm2
+  - unzip
+  - tuned
+  - compat-sap-c++-11
+
+sapbase_required_configurations:
+  - "repository_RHEL"
+  - "update_RedHat"
+  - "reqpkg"
+  - "hostname_fix_RedHat"
+  - "hostname"
+  - "umask_RHEL"
+  - "SELinux"
+  - "tmpfiles"
+  - "timezone"
+  - "reboot"
+... 

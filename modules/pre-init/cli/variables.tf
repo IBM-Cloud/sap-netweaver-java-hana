@@ -81,8 +81,11 @@ variable "KIT_SAPJVM_FILE" {
     }
 }
 
-variable "KIT_JAVA_EXPORT" {
+variable "KIT_JAVA_EXPORT_FILE" {
 	type		= string
-	description = "KIT_JAVA_EXPORT"
-	default		= "/storage/NW75HDB/export"
+	description = "KIT_JAVA_EXPORT_FILE"
+    validation {
+    condition = fileexists("${var.KIT_JAVA_EXPORT_FILE}") == true
+    error_message = "The PATH does not exist."
+    }
 }

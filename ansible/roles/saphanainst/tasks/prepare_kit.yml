@@ -1,0 +1,62 @@
+---
+- name: Detect the type of HANA kit file - ZIP or SAR 
+  set_fact:
+    hdb_extention: "{{ (kit_saphana_file.split('/')[-1]).split('.')[1] }}"
+
+- name: Create /usr/sap/kit directory
+  file:
+    path: "{{ hana_kit }}"
+    state: directory
+    mode: 0777
+
+- name: Detect if HANA kit file is on the target
+  stat:
+    path: "{{ hana_kit }}/{{ kit_saphana_file.split('/')[-1] }}"
+  register: hdb_kit_status 
+
+- name: Detect if HANA kit ZIP file is unpacked on the target
+  stat:
+    path: "{{ hana_kit }}/DATA_UNITS/HDB_CLIENT_LINUX_X86_64/LABEL.ASC"
+  register: hdb_kit_zip_files_status
+  when: not hdb_kit_status.stat.exists
+
+- name: Detect if HANA kit SRC file is unpacked on the target
+  stat:
+    path: "{{ hana_kit }}/SAP_HANA_DATABASE/hdblcm"
+  register: hdb_kit_src_files_status
+  when: not hdb_kit_status.stat.exists
+
+- name: Copy "{{ kit_saphana_file }}" kit to target
+  copy:
+    src: "{{ kit_saphana_file }}"
+    dest: "{{ hana_kit }}"
+    owner: root
+    group: root
+    mode: 0777
+  when: not hdb_kit_status.stat.exists and not hdb_kit_src_files_status.stat.exists and not hdb_kit_zip_files_status.stat.exists
+
+- name: Copy sapcar kit to target
+  copy:
+    src: "{{ kit_sapcar_file }}"
+    dest: "{{ hana_kit }}/sapcar"
+    owner: root
+    group: root
+    mode: 0777
+  when: '"zip" not in hdb_extention|lower and not hdb_kit_status.stat.exists and not hdb_kit_src_files_status.stat.exists'
+
+- name: Extract HANA ZIP file to target
+  unarchive:
+    src: "{{ hana_kit }}/{{ kit_saphana_file.split('/')[-1] }}"
+    dest: "{{ hana_kit }}"
+    remote_src: yes
+  when: '"zip" in hdb_extention|lower and not hdb_kit_zip_files_status.stat.exists'
+
+- name: Extract HANA SAR file to target
+  command: "{{ hana_kit }}/sapcar -xf {{ hana_kit }}/{{ kit_saphana_file.split('/')[-1] }} -R {{ hana_kit }} -manifest SIGNATURE.SMF"
+  when: '"zip" not in hdb_extention|lower and not hdb_kit_src_files_status.stat.exists'
+
+- name: Cleanup
+  file:
+    path: "{{ hana_kit }}/{{ kit_saphana_file.split('/')[-1] }}"
+    state: absent
+...

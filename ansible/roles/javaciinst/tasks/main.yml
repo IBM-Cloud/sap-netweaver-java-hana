@@ -1,25 +1,37 @@
 ---
-- name: Set timezone to the same as DB server
-  timezone:
-    name: US/Central
-
-- name: Import install kit
-  include_tasks: "install_kit.yml"
-
-- name: Generate parameter file for sapinst
-  template:
-      src: sapinst.cfg
-      dest: "{{ javaci_kit }}/inifile.params"
-
 - name: Check if SAP JAVA Application Server was already installed
   stat:
     path: "/sapmnt/{{ sap_sid|upper }}/profile/DEFAULT.PFL"
   register: install_status
 
-- name: Detect first SAP JAVA Application Server installation
+- name: Check if SWPM archive content was already extracted
+  stat:
+    path: "{{ javaci_kit }}/swpm/sapinst"
+  register: swpm_file_status
+
+- name: Include prepare kit tasks
+  include_tasks: "prepare_kit.yml"
+  when: not swpm_file_status.stat.exists and not install_status.stat.exists
+
+- name: Set a default value for java_instances variable
   set_fact:
-    sap_installation: "done"
-  when: install_status.stat.exists
+    java_instances: ""
+
+- include_tasks: java_selected_instances.yml
+  loop: "{{ java_product_instances.split(',') }}"
+  loop_control:
+    loop_var: outer_item
+
+- name: Set the final value for java instances
+  set_fact:
+    java_instances: "{{ java_instances_temp | regex_replace('^,', '') }}"
+  when: java_instances_temp is defined
+
+- name: Generate parameter file for sapinst
+  template:
+    src: sapinst.cfg
+    dest: "{{ javaci_kit }}/inifile.params"
+  when: not install_status.stat.exists
 
 - name: Start SAP JAVA Application Server installation
   shell: >-
@@ -35,13 +47,13 @@
 
 - name: Restart ICM process
   shell: |
-      source /home/{{ sap_sid|lower }}adm/.sapenv.sh && \
-      sapcontrol -nr {{ sap_ci_instance_number }} -function J2EEControlProcess icm RestartProcess
+    source /home/{{ sap_sid|lower }}adm/.sapenv.sh && \
+    sapcontrol -nr {{ sap_ci_instance_number }} -function J2EEControlProcess icm RestartProcess
   args:
     executable: /bin/bash
   become: true
   become_user: "{{ sap_sid|lower }}adm"
-  when: sap_installation is not defined
+  when: not install_status.stat.exists
 
 - name: Cleanup
   file:

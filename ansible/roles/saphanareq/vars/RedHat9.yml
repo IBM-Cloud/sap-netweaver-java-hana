@@ -1,0 +1,31 @@
+---
+saphana_required_packages:
+  - chkconfig
+  - compat-openssl11
+  - graphviz
+  - iptraf-ng
+  - lm_sensors
+  - expect
+  - firewalld
+  - gtk2
+  - krb5-workstation
+  - libcanberra-gtk2
+  - libtool-ltdl
+  - libxcrypt-compat
+  - numactl
+  - PackageKit-gtk3-module
+  - tuned-profiles-sap-hana
+  - xorg-x11-xauth
+
+saphana_required_configurations:
+  - "reqpkg"
+  - "kernel_RedHat9"
+  - "tsx"
+  - "filesystems"
+  - "tmpfs"
+  - "firewalld"
+  - "kdump"
+  - "uuidd"
+  - "tuned"
+  - "reboot"
+...

@@ -5,6 +5,7 @@
     - name: Import playbook variables
       include_vars: "javaci-vars.yml"
   roles:
+    - appfs
     - javacireq
     - javaciinst
 ...

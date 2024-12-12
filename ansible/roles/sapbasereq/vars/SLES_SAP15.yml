@@ -1,0 +1,22 @@
+---
+sapbase_required_packages:
+  - uuidd
+  - tcsh
+  - nfs-utils
+  - bind-utils
+  - lvm2
+  - unzip
+  - insserv-compat
+  - libltdl7
+  - saptune
+
+sapbase_required_configurations:
+  - "repository_SLES"
+  - "update_SLES_SAP"
+  - "reqpkg"
+  - "hostname"
+  - "umask_SLES"
+  - "tmpfiles"
+  - "timezone"
+  - "reboot"
+...

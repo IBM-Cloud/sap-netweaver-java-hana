@@ -1,8 +1,8 @@
 ---
-#Sapinst product-id
+# Sapinst product-id
 sap_product_id: "NW_Java_OneHost:NW750.HDB.PD"
 
-#Target files location
+# Target files location
 javaci_kit: "/usr/sap/trans/kit"
 
 # Source and destination for the kit files
@@ -25,6 +25,18 @@ javacis_kit:
     javacis_dest: "{{ javaci_kit }}/hdbclient.sar"
   - javacis_src: "{{ kit_sapjvm_file }}"
     javacis_dest: "{{ javaci_kit }}/sapjvm.sar"
-  - javacis_src: "{{ kit_java_export }}/"
-    javacis_dest: "{{ javaci_kit }}/export"
+  - javacis_src: "{{ kit_java_export_file }}"
+    javacis_dest: "{{ javaci_kit }}/export/"
+
+java_instance_mapping:
+  adobedocumentservices: "01200615324800000128"
+  bijava: "01200615324800000150,01200615324800000164,01200615324800000174"
+  bpm: "01200615324800002897,01200615324800002968"
+  centralprocessscheduling: "01200615324800000153"
+  compositionplatform: "01200615324800002968"
+  developmentinfrastructure: "01200615324800000129"
+  epcore-applicationportal: "01200615324800000164"
+  enterpriseportal: "01200615324800000164,01200615324800000174"
+  enterpriseservicesrepository: "01200615324800002887"
+  pdfexport: "01200615324800000128,01200314694800005225"
 ...
